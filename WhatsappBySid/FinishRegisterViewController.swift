@@ -73,21 +73,46 @@ class FinishRegisterViewController: UIViewController {
            
             imageFromInitials(firstname: nameTextField.text!, lastname: surnameTextField.text!) { (avatarInitials) in
                 let avatarIMG = avatarInitials.jpegData(compressionQuality: 0.7)
-                let avatar = avatarIMG?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-                tempDictionary[kAVATAR] = avatar  }
+                let avatar = avatarIMG!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+                tempDictionary[kAVATAR] = avatar
+                self.finishRegistration(withValues: tempDictionary)
+                }
         }else{
             
             let avatarData = avatarImage?.jpegData(compressionQuality: 0.7)
-            let avatar = avatarData?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+            let avatar = avatarData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
             tempDictionary[kAVATAR] = avatar
-       
+            self.finishRegistration(withValues: tempDictionary)
         }
-        
-        
-        
-        
     }
 
+    func finishRegistration(withValues: [String : Any]){
+        
+        updateCurrentUserInFirestore(withValues: withValues) { (error) in
+            if error != nil{
+                DispatchQueue.main.async {
+                    ProgressHUD.showError(error!.localizedDescription)
+                }
+            return
+            }
+            
+            ProgressHUD.dismiss()
+            self.goToApp()
+            //go to app
+        }
+    }
+    
+    func goToApp() {
+        ProgressHUD.dismiss()
+        cleanTextFields()
+        dismissKeyboard()
+        
+                NotificationCenter.default.post(name: NSNotification.Name(USER_DID_LOGIN_NOTIFICATION) , object: nil, userInfo: [kUSERID: FUser.currentId()])
+        
+        let mainView = UIStoryboard.init(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "mainApplication") as! UITabBarController
+        
+        self.present(mainView,animated: true, completion: nil)
+    }
     func dismissKeyboard(){
         self.view.endEditing(false)
     }
