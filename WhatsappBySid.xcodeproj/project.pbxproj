@@ -11,6 +11,7 @@
 		0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */; };
 		04552F2E245302DA00A28214 /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04552F2D245302DA00A28214 /* UsersTableViewController.swift */; };
 		045B2E0A244DD690002E5518 /* FinishRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */; };
+		047CA38E2455BDFF000818C1 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047CA38D2455BDFF000818C1 /* ProfileTableViewController.swift */; };
 		0481A50C24516D1B00FE25ED /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0481A50B24516D1B00FE25ED /* SettingsTableViewController.swift */; };
 		04A447C3244CCC5C0089A349 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04A447C2244CCC5C0089A349 /* GoogleService-Info.plist */; };
 		04AB6EDE244C611D00A6460F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB6EDD244C611D00A6460F /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 		0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		04552F2D245302DA00A28214 /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UsersTableViewController.swift; path = /Users/mac/Desktop/WhatsappBySid/WhatsappBySid/UsersTableViewController.swift; sourceTree = "<absolute>"; };
 		045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishRegisterViewController.swift; sourceTree = "<group>"; };
+		047CA38D2455BDFF000818C1 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		0481A50B24516D1B00FE25ED /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		04A447C2244CCC5C0089A349 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04AB6EDA244C611D00A6460F /* WhatsappBySid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsappBySid.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044D96B12459750E009242FE /* Welcome viewa */ = {
+			isa = PBXGroup;
+			children = (
+				04AB6EF2244C677500A6460F /* WelcomeViewController.swift */,
+				045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */,
+			);
+			path = "Welcome viewa";
+			sourceTree = "<group>";
+		};
+		044D96B224597544009242FE /* Main View */ = {
+			isa = PBXGroup;
+			children = (
+				0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */,
+				0481A50B24516D1B00FE25ED /* SettingsTableViewController.swift */,
+			);
+			path = "Main View";
+			sourceTree = "<group>";
+		};
+		044D96B324597574009242FE /* Secondary View */ = {
+			isa = PBXGroup;
+			children = (
+				04552F2D245302DA00A28214 /* UsersTableViewController.swift */,
+				047CA38D2455BDFF000818C1 /* ProfileTableViewController.swift */,
+			);
+			path = "Secondary View";
+			sourceTree = "<group>";
+		};
 		04552F2C2453000D00A28214 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,13 +141,11 @@
 				04AB6EDD244C611D00A6460F /* AppDelegate.swift */,
 				049EF5B7244ECB8B005FDB7F /* Classes */,
 				049EF5B6244ECB60005FDB7F /* Helpers */,
-				04AB6EF2244C677500A6460F /* WelcomeViewController.swift */,
-				04552F2D245302DA00A28214 /* UsersTableViewController.swift */,
-				045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */,
-				04AB6EE1244C611D00A6460F /* Main.storyboard */,
-				0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */,
+				044D96B12459750E009242FE /* Welcome viewa */,
+				044D96B224597544009242FE /* Main View */,
+				044D96B324597574009242FE /* Secondary View */,
 				04552F2C2453000D00A28214 /* CustomCells */,
-				0481A50B24516D1B00FE25ED /* SettingsTableViewController.swift */,
+				04AB6EE1244C611D00A6460F /* Main.storyboard */,
 				04AB6EE7244C611F00A6460F /* Assets.xcassets */,
 				04AB6EE9244C611F00A6460F /* LaunchScreen.storyboard */,
 				04AB6EEC244C611F00A6460F /* Info.plist */,
@@ -269,6 +296,7 @@
 				04552F2E245302DA00A28214 /* UsersTableViewController.swift in Sources */,
 				04AB6EDE244C611D00A6460F /* AppDelegate.swift in Sources */,
 				04AB6EE6244C611D00A6460F /* WhatsappBySid.xcdatamodeld in Sources */,
+				047CA38E2455BDFF000818C1 /* ProfileTableViewController.swift in Sources */,
 				04C12A93244D6C53006065DB /* FUser.swift in Sources */,
 				04C12A97244D8317006065DB /* CollectionReference.swift in Sources */,
 				0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */,
