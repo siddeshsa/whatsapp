@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FirebaseFirestore
+import FirebaseFirestore    
 
 //MARK: GLOBAL FUNCTIONS
 private let dateFormat = "yyyyMMddHHmmss"
@@ -60,6 +60,7 @@ func dictionaryFromSnapshots(snapshots: [DocumentSnapshot]) -> [NSDictionary] {
     
     var allMessages: [NSDictionary] = []
     for snapshot in snapshots {
+    
         allMessages.append(snapshot.data() as! NSDictionary)
     }
     return allMessages

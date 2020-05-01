@@ -364,6 +364,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="CpY-xS-tyh" id="sm4-ZK-ESw"/>
+                                    <outlet property="delegate" destination="CpY-xS-tyh" id="fjA-2Z-dTC"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -382,6 +386,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="EqP-9P-ZcW" id="bse-yB-uHo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s33-rS-DLt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
