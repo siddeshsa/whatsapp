@@ -73,6 +73,75 @@ class ChatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
+    //Taableview delegate methods
+    
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        var tempRecent : NSDictionary!
+        if searchController.isActive && searchController.searchBar.text != ""{
+            tempRecent = filteredChats[indexPath.row]
+        }else{
+            tempRecent = recentChats[indexPath.row]
+        }
+        
+        var muteTitle = "Unmute"
+        var mute = false
+        
+        if(tempRecent[kMEMBERSTOPUSH] as! [String]).contains(FUser.currentId()){
+             muteTitle = "Mute"
+             mute = false
+        }
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (action, indexPath) in
+                self.recentChats.remove(at: indexPath.row)
+            
+                deleteRecentChat(recentChatDictionary: tempRecent   )
+            
+        }
+        let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { (action, indexPath) in
+            print("mute\(indexPath)")
+        }
+        
+        muteAction.backgroundColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
+        deleteAction.backgroundColor = #colorLiteral(red: 0.3176470697, green: 0.07450980693, blue: 0.02745098062, alpha: 1)
+        return [deleteAction,muteAction]
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        var recent	: NSDictionary!
+        
+        if searchController.isActive && searchController.searchBar.text != ""{
+            recent = filteredChats[indexPath.row]
+        }else{
+            recent = recentChats[indexPath.row]
+        }
+        //restart  chat
+        restartRecentChat(recent: recent)
+        
+        //show chat now
+        
+        let chatVC = ChatViewController()
+        chatVC.hidesBottomBarWhenPushed = true
+        chatVC.titleName = (recent[kWITHUSERFULLNAME] as?   String)!    
+        chatVC.memberIds = (recent[kMEMBERS] as? [String])!
+        chatVC.membersToPush = (recent[kMEMBERSTOPUSH] as? [String])!
+        chatVC.chatRoomId = (recent[kCHATROOMID] as? String)!
+        navigationController?.pushViewController(chatVC, animated: true)
+        
+        
+    }
+    
+    
+    
     func loadRecentChats(){
         recentListener = reference(.Recent).whereField(kUSERID, isEqualTo: FUser.currentId()).addSnapshotListener({ (snapshot, error) in
             guard let snapshot = snapshot else { return }
