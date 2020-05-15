@@ -24,6 +24,12 @@ class ChatViewController: JSQMessagesViewController {
     var membersToPush: [String]!
     var titleName: String!
     
+    var typingListener: ListenerRegistration?
+    var updatedChatListener: ListenerRegistration?
+    var newChatListener : ListenerRegistration?
+    
+    
+    
     var legitTypes = [kAUDIO,kVIDEO,kTEXT,kLOCATION,kPICTURE]
     
     var messages : [JSQMessage] = []
@@ -84,7 +90,97 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath)as! JSQMessagesCollectionViewCell
+        
+        let data = messages[indexPath.row]
+
+        if data.senderId == FUser.currentId() {
+            cell.textView.textColor = .white
+        }else{
+            cell.textView.textColor = .black
+        }
+        return cell
+    }
     
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
+        return messages[indexPath.row]
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
+        let data = messages[indexPath.row]
+        
+        if data.senderId == FUser.currentId(){
+            return outgoingBubble
+        }else{
+            return incomingBubble
+        }
+    }
+    
+    
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        if indexPath.item % 3 == 0{
+            let message = messages[indexPath.row]
+            
+            return JSQMessagesTimestampFormatter.shared()?.attributedTimestamp(for: message.date)
+        }
+        return nil
+    }
+    
+    
+    
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        if indexPath.item % 3 == 0{
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }else{
+            return 0.0
+        }
+    }
+    
+    
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        let message = objectMessages[indexPath.row]
+        let status: NSAttributedString!
+        let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.darkGray]
+        
+        switch message[kSTATUS] as! String {
+        case kDELIVERED:
+            status = NSAttributedString(string: kDELIVERED)
+            
+        case kREAD:
+            let statusText = "Read" + " " + readTimeFrom(dateString: message[kREADDATE] as! String)
+            status = NSAttributedString(string: statusText, attributes: attributedStringColor )
+            
+        default:
+            status = NSAttributedString(string: "✔️")
+        }
+        
+        if indexPath.row == (messages.count - 1){
+            return status
+        }else{
+            return NSAttributedString(string: " ")
+        }
+    }
+    
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+        let data = messages[indexPath.row]
+        
+        if data.senderId == FUser.currentId(){
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }else{
+            return 0.0
+        }
+    }
     
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
@@ -178,11 +274,44 @@ class ChatViewController: JSQMessagesViewController {
             self.initialLoadComplete = true
             
             print("we have \(self.messages.count) messages")
+            
+            //get picture messsages
+            
+            //get old messages in background
+            
+            self.listenForNewChats()
 
     }
     }
     
-    
+    func listenForNewChats(){
+        var lastMessageDate = "0"
+        
+        if loadedMessages.count > 0{
+            lastMessageDate = loadedMessages.last![kDATE] as! String
+        }
+        
+        newChatListener = reference(.Message).document(FUser.currentId()).collection(chatRoomId).whereField(kDATE, isGreaterThan:lastMessageDate).addSnapshotListener({ (snapshot, error) in
+            guard let snapshot = snapshot else{
+                return
+            }
+            if !snapshot.isEmpty {
+                for diff in snapshot.documentChanges {
+                    if ( diff.type  == .added ){
+                        let item = diff.document.data() as NSDictionary
+                        if let type = item[kTYPE]{
+                            if self.legitTypes.contains(type as! String){
+                                //gthis is for picture message
+                                if type as! String == kPICTURE{
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
     
     
     //Mark:insert mesages
@@ -249,7 +378,14 @@ class ChatViewController: JSQMessagesViewController {
         }
     }
 
-
+    func readTimeFrom(dateString: String)-> String{
+        let date = dateFormatter().date(from: dateString)
+        
+        let currentDataFormat = dateFormatter()
+        currentDataFormat.dateFormat = "HH:mm"
+        
+        return currentDataFormat.string(from: date!)
+    }
     
     
     func removeBadMessages(allMessages: [NSDictionary])-> [NSDictionary]{
