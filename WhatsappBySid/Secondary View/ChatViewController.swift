@@ -17,7 +17,7 @@ import FirebaseFirestore
 
 
 
-class ChatViewController: JSQMessagesViewController {
+class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate,  UINavigationControllerDelegate {
 
     var chatRoomId: String!
     var memberIds: [String]!
@@ -25,6 +25,7 @@ class ChatViewController: JSQMessagesViewController {
     var titleName: String!
     var isGroup: Bool?
     var group: NSDictionary?
+    var withUsers: [FUser] = []
     
     var typingListener: ListenerRegistration?
     var updatedChatListener: ListenerRegistration?
@@ -67,7 +68,7 @@ class ChatViewController: JSQMessagesViewController {
     }()
     
     let subTitle : UILabel = {
-        let subtitle = UILabel(frame: CGRect(x: 30, y: 10, width: 140, height: 15))
+        let subtitle = UILabel(frame: CGRect(x: 30, y: 25, width: 140, height: 15))
         subtitle.textAlignment = .left
         subtitle.font = UIFont(name: subtitle.font.fontName, size: 10)
         return subtitle
@@ -77,10 +78,21 @@ class ChatViewController: JSQMessagesViewController {
     // fix for alignment in iphone chat
    
     
+    
+    
+    
+    
     override func viewDidLayoutSubviews() {
         perform(Selector(("jsq_updateCollectionViewInsets")))
     }
-            // fix for alignment in iphone chat ens
+    
+    
+    
+    
+    
+    
+    
+    // fix for alignment in iphone chat ens
     
    
     
@@ -118,6 +130,13 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     
+   
+    
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath)as! JSQMessagesCollectionViewCell
         
@@ -131,14 +150,37 @@ class ChatViewController: JSQMessagesViewController {
         return cell
     }
     
+  
+    
+    
+    
+    
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
         return messages[indexPath.row]
     }
     
+ 
+    
+    
+    
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
+    
+    
+   
+    
+    
+    
+    
+    
+    
     
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
@@ -150,6 +192,12 @@ class ChatViewController: JSQMessagesViewController {
             return incomingBubble
         }
     }
+    
+  
+    
+    
+    
+    
     
     
     
@@ -165,6 +213,12 @@ class ChatViewController: JSQMessagesViewController {
     
     
     
+    
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
         if indexPath.item % 3 == 0{
             return kJSQMessagesCollectionViewCellLabelHeightDefault
@@ -172,6 +226,11 @@ class ChatViewController: JSQMessagesViewController {
             return 0.0
         }
     }
+    
+    
+  
+    
+    
     
     
     
@@ -200,6 +259,12 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     
+    
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
         let data = messages[indexPath.row]
         
@@ -211,14 +276,23 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     
+    
+    
+    
+    
+    
     override func didPressAccessoryButton(_ sender: UIButton!) {
-    let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let camera = Camera(delegate_: self)
+        
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let takePhotoOrVideo = UIAlertAction(title: "Camera", style: .default) { (action) in
             print("camera")
         }
         let sharePhoto = UIAlertAction(title: "Photo Library", style: .default) { (action) in
-            print("PhotoLibrary")
+                camera.PresentPhotoLibrary(target: self, canEdit: false)
+
         }
         let shareVideo = UIAlertAction(title: "Video Library", style: .default) { (action) in
             print("Video Library")
@@ -258,6 +332,10 @@ class ChatViewController: JSQMessagesViewController {
             print("audio message")
         }
     }
+    
+    
+    
+    
     
     
     
@@ -476,7 +554,8 @@ class ChatViewController: JSQMessagesViewController {
     @objc func showUserProfile(){
         print("show user profile")
         let profileVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileView")   as! ProfileTableViewController
-        profileVC.user = self.navigationController?.pushViewController(profileVC, animated: true)
+        profileVC.user = withUsers.first!
+        self.navigationController?.pushViewController(profileVC, animated: true)
     }
     
     
@@ -522,12 +601,60 @@ class ChatViewController: JSQMessagesViewController {
         self.navigationItem.leftBarButtonItems?.append(leftBarButtonItem)
         
         if isGroup!{
-            avatarButton.addTarget(self, action: #selector(self.showGroup), for: UIControl.Event)
+            avatarButton.addTarget(self, action: #selector(self.showGroup), for: .touchUpInside)
         }else{
-            avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: UIControl.Event)
+            avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: .touchUpInside)
 
         }
+        
+        getUsersFromFirestore(withIds: memberIds) { (withUsers) in
+            self.withUsers = withUsers
+            
+            if !self.isGroup! {
+                self.setUIForSingleChat()
+            }
+        }
     }
+    
+    
+    
+    func setUIForSingleChat(){
+        let withUser = withUsers.first!
+        
+        imageFromData(pictureData: withUser.avatar) { (image) in
+            if image != nil {
+                avatarButton.setImage(image!.circleMasked, for: .normal)
+            }
+        }
+        titleLabel.text = withUser.fullname
+        
+        if withUser.isOnline{
+            subTitle.text = "Online"
+        }else{
+            subTitle.text = "Offline"
+            
+        }
+        avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: .touchUpInside)
+    }
+    
+    
+    
+    
+    
+    
+    //MARK: UIImagePickerController delegate
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let video = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL
+        let picture = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        
+        sendMessage(text: nil, date: Date(), picture: picture, location: nil, video: video, audio: nil)
+       
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     
     
     

@@ -41,5 +41,17 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>whatsapp needs to use your camera</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>whatsapp needs to use your media library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>whatsapp needs to use your photo library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>whatsapp needs to use your microphone l</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>whatsapp needs to use your location</string>
+	<key>NSContactsUsageDescription</key>
+	<string>whatsapp needs to use your contacts</string>
 </dict>
 </plist>

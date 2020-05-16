@@ -135,6 +135,7 @@ class ChatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         chatVC.memberIds = (recent[kMEMBERS] as? [String])!
         chatVC.membersToPush = (recent[kMEMBERSTOPUSH] as? [String])!
         chatVC.chatRoomId = (recent[kCHATROOMID] as? String)!
+        chatVC.isGroup = false
         navigationController?.pushViewController(chatVC, animated: true)
         
         

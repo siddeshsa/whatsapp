@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		041F69632451CBEC00F92C61 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F69622451CBEC00F92C61 /* UserTableViewCell.swift */; };
 		0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */; };
+		04519C8424700CF100735C95 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04519C8324700CF100735C95 /* Camera.swift */; };
+		04519C8624701E3000735C95 /* Downloads .swift in Sources */ = {isa = PBXBuildFile; fileRef = 04519C8524701E3000735C95 /* Downloads .swift */; };
 		04552F2E245302DA00A28214 /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04552F2D245302DA00A28214 /* UsersTableViewController.swift */; };
 		045B2E0A244DD690002E5518 /* FinishRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */; };
 		0469671724633B900024C3F0 /* OutgoingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469671624633B900024C3F0 /* OutgoingMessages.swift */; };
@@ -35,6 +37,8 @@
 /* Begin PBXFileReference section */
 		041F69622451CBEC00F92C61 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		04519C8324700CF100735C95 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		04519C8524701E3000735C95 /* Downloads .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Downloads .swift"; sourceTree = "<group>"; };
 		04552F2D245302DA00A28214 /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UsersTableViewController.swift; path = /Users/mac/Desktop/WhatsappBySid/WhatsappBySid/UsersTableViewController.swift; sourceTree = "<absolute>"; };
 		045B2E09244DD690002E5518 /* FinishRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishRegisterViewController.swift; sourceTree = "<group>"; };
 		0469671624633B900024C3F0 /* OutgoingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessages.swift; sourceTree = "<group>"; };
@@ -125,8 +129,10 @@
 			isa = PBXGroup;
 			children = (
 				04C12A92244D6C52006065DB /* FUser.swift */,
+				04519C8324700CF100735C95 /* Camera.swift */,
 				0477EE6B24599EA30027C05B /* Recent.swift */,
 				04FD57BE246542B8009D2F7C /* IncomingMessages.swift */,
+				04519C8524701E3000735C95 /* Downloads .swift */,
 				0469671624633B900024C3F0 /* OutgoingMessages.swift */,
 			);
 			path = Classes;
@@ -315,7 +321,9 @@
 				04AB6EE6244C611D00A6460F /* WhatsappBySid.xcdatamodeld in Sources */,
 				047CA38E2455BDFF000818C1 /* ProfileTableViewController.swift in Sources */,
 				04EDB1E2245ABD57009C4D20 /* RecentChatsTableViewCell.swift in Sources */,
+				04519C8424700CF100735C95 /* Camera.swift in Sources */,
 				04C12A93244D6C53006065DB /* FUser.swift in Sources */,
+				04519C8624701E3000735C95 /* Downloads .swift in Sources */,
 				0477EE6C24599EA30027C05B /* Recent.swift in Sources */,
 				04C12A97244D8317006065DB /* CollectionReference.swift in Sources */,
 				0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */,
