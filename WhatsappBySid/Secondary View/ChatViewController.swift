@@ -23,6 +23,8 @@ class ChatViewController: JSQMessagesViewController {
     var memberIds: [String]!
     var membersToPush: [String]!
     var titleName: String!
+    var isGroup: Bool?
+    var group: NSDictionary?
     
     var typingListener: ListenerRegistration?
     var updatedChatListener: ListenerRegistration?
@@ -47,6 +49,30 @@ class ChatViewController: JSQMessagesViewController {
     var incomingBubble = JSQMessagesBubbleImageFactory()?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     
     
+    let leftBarButtonView : UIView = {
+        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 200, height: 44))
+        return view
+    }()
+
+    let avatarButton : UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y:10, width: 25, height: 25))
+        return button
+    }()
+    
+    let titleLabel : UILabel = {
+        let title = UILabel(frame: CGRect(x: 30, y: 10, width: 140, height: 15))
+        title.textAlignment = .left
+        title.font = UIFont(name: title.font.fontName, size: 14)
+        return title
+    }()
+    
+    let subTitle : UILabel = {
+        let subtitle = UILabel(frame: CGRect(x: 30, y: 10, width: 140, height: 15))
+        subtitle.textAlignment = .left
+        subtitle.font = UIFont(name: subtitle.font.fontName, size: 10)
+        return subtitle
+    }()
+    
     
     // fix for alignment in iphone chat
    
@@ -68,6 +94,8 @@ class ChatViewController: JSQMessagesViewController {
         collectionView?.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView?.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
 
+        setCustomTitle()
+        
         loadMessages()
         
        
@@ -225,8 +253,6 @@ class ChatViewController: JSQMessagesViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         if text != ""{
             self.sendMessage(text: text, date: date, picture: nil, location: nil, video: nil , audio: nil)
-            
-            
             updateSendButton(isSend: false  )
         }else{
             print("audio message")
@@ -234,6 +260,11 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
+        self.loadMoreMessages(maxNumber: maxMessageNumber, minNumber: minMessageNumber)
+        self.collectionView.reloadData()
+    }
     
     
     
@@ -277,12 +308,15 @@ class ChatViewController: JSQMessagesViewController {
             
             //get picture messsages
             
-            //get old messages in background
-            
+            self.getOldMessagesInBackground()
             self.listenForNewChats()
 
     }
     }
+    
+    
+    
+    
     
     func listenForNewChats(){
         var lastMessageDate = "0"
@@ -305,6 +339,11 @@ class ChatViewController: JSQMessagesViewController {
                                 if type as! String == kPICTURE{
                                     
                                 }
+                                
+                                if self .insertInitialLoadMessages(messageDictionary: item){
+                                    JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+                                }
+                                self.finishReceivingMessage()
                             }
                         }
                     }
@@ -312,6 +351,34 @@ class ChatViewController: JSQMessagesViewController {
             }
         })
     }
+    
+    
+    
+    
+    
+    func getOldMessagesInBackground(){
+        if loadedMessages.count > 10 {
+            let firstMessageDate = loadedMessages.first![kDATE] as! String
+            reference(.Message).document(FUser.currentId()).collection(chatRoomId).whereField(kDATE, isLessThan: firstMessageDate).getDocuments { (snapshot, error) in
+                guard let snapshot = snapshot else{
+                    return
+                }
+                let sorted = ((dictionaryFromSnapshots(snapshots: snapshot.documents)) as! NSArray).sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: true)]) as! [NSDictionary]
+                
+                
+                self.loadedMessages = self.removeBadMessages(allMessages: sorted) + self.loadedMessages
+                
+                //get picture mesages
+                
+                self.maxMessageNumber = self.loadedMessages.count - self.loadedMessagesCount - 1
+                self.minMessageNumber = self.maxMessageNumber - kNUMBEROFMESSAGES
+                
+            }
+        }
+    }
+    
+    
+    
     
     
     //Mark:insert mesages
@@ -358,10 +425,68 @@ class ChatViewController: JSQMessagesViewController {
     
     
     
+    func loadMoreMessages(maxNumber: Int, minNumber: Int){
+        
+        if loadOld{
+            maxMessageNumber = minNumber - 1
+            minMessageNumber = maxMessageNumber - kNUMBEROFMESSAGES
+        }
+        
+        if minMessageNumber < 0 {
+            minMessageNumber = 0
+        }
+        
+        for i in (minMessageNumber ... maxMessageNumber).reversed(){
+            let messageDictionary =  loadedMessages[i]
+            insertNewMessage(messageDictionary: messageDictionary )
+        }
+        
+        loadOld = true
+        self.showLoadEarlierMessagesHeader = (loadedMessagesCount != loadedMessages.count)
+    }
+    
+    
+    
+    
+    
+    
+    
+    func insertNewMessage(messageDictionary: NSDictionary){
+        let incomingMessage = IncomingMessges(collectionView_: self.collectionView!)
+        let message = incomingMessage.createMessage(messageDictionary: messageDictionary, chatRoomId: chatRoomId)
+        
+        objectMessages.insert(messageDictionary, at: 0)
+        messages.insert(message!, at: 0)
+    }
+    
+    
+    
+    //ibactions
+    
+    
+    @objc func infoButtonPressed(){
+        print("info button pressed")
+    }
+    
+    
+    @objc func showGroup(){
+        print("show group pressed")
+    }
+    
+    @objc func showUserProfile(){
+        print("show user profile")
+        let profileVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileView")   as! ProfileTableViewController
+        profileVC.user = self.navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
     
     @objc func backAction(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
+    
+    
     
     override func textViewDidChange(_ textView: UITextView) {
         if textView.text != ""{
@@ -378,6 +503,35 @@ class ChatViewController: JSQMessagesViewController {
         }
     }
 
+    
+    
+    
+    //MARK:updateUI
+    
+    func setCustomTitle(){
+        
+        leftBarButtonView.addSubview(avatarButton)
+        leftBarButtonView.addSubview(titleLabel)
+        leftBarButtonView.addSubview(subTitle)
+        
+        let infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: .plain, target: self, action: #selector(self.infoButtonPressed))
+        
+        self.navigationItem.rightBarButtonItem = infoButton
+        
+        let leftBarButtonItem = UIBarButtonItem(customView: leftBarButtonView)
+        self.navigationItem.leftBarButtonItems?.append(leftBarButtonItem)
+        
+        if isGroup!{
+            avatarButton.addTarget(self, action: #selector(self.showGroup), for: UIControl.Event)
+        }else{
+            avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: UIControl.Event)
+
+        }
+    }
+    
+    
+    
+    //helper functions
     func readTimeFrom(dateString: String)-> String{
         let date = dateFormatter().date(from: dateString)
         
