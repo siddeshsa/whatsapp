@@ -62,9 +62,17 @@ func uploadImage(image: UIImage, chatRoomId: String, view: UIView, completion: @
 }
 
 
+
+
+
+
+
+
 func downloadImage(imageUrl: String, completion: @escaping(_ image: UIImage?)-> Void){
+
     let imageURL = NSURL(string: imageUrl)
     print(imageUrl)
+
     let imageFileName = (imageUrl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
     print("file name\(imageFileName)")
     
@@ -91,7 +99,7 @@ func downloadImage(imageUrl: String, completion: @escaping(_ image: UIImage?)-> 
 
                 let imageToReturn = UIImage(data: data! as Data)
                 DispatchQueue.main.async {
-                    completion(imageToReturn)
+                    completion(imageToReturn )
                 }
             }else{
                 DispatchQueue.main.async{
@@ -102,6 +110,9 @@ func downloadImage(imageUrl: String, completion: @escaping(_ image: UIImage?)-> 
         }
     }
 }
+
+
+
 
 
 func fileInDocumentsDirectory(fileName: String)-> String {
