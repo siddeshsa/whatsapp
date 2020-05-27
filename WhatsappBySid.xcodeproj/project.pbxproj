@@ -30,6 +30,7 @@
 		04C12A95244D6C6B006065DB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C12A94244D6C6B006065DB /* Constants.swift */; };
 		04C12A97244D8317006065DB /* CollectionReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C12A96244D8317006065DB /* CollectionReference.swift */; };
 		04C12A99244D870A006065DB /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C12A98244D870A006065DB /* HelperFunctions.swift */; };
+		04C56EC3247EA0CA00F5E737 /* VideoMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C56EC2247EA0CA00F5E737 /* VideoMessage.swift */; };
 		04EDB1E2245ABD57009C4D20 /* RecentChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EDB1E1245ABD57009C4D20 /* RecentChatsTableViewCell.swift */; };
 		04FD57BF246542B8009D2F7C /* IncomingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD57BE246542B8009D2F7C /* IncomingMessages.swift */; };
 		C70A1C512C793090B205AB43 /* Pods_WhatsappBySid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC04DD14C1A4292998761BE /* Pods_WhatsappBySid.framework */; };
@@ -61,6 +62,7 @@
 		04C12A94244D6C6B006065DB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04C12A96244D8317006065DB /* CollectionReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReference.swift; sourceTree = "<group>"; };
 		04C12A98244D870A006065DB /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
+		04C56EC2247EA0CA00F5E737 /* VideoMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoMessage.swift; sourceTree = "<group>"; };
 		04EDB1E1245ABD57009C4D20 /* RecentChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChatsTableViewCell.swift; sourceTree = "<group>"; };
 		04FD57BE246542B8009D2F7C /* IncomingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessages.swift; sourceTree = "<group>"; };
 		7DC04DD14C1A4292998761BE /* Pods_WhatsappBySid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhatsappBySid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 				04519C8324700CF100735C95 /* Camera.swift */,
 				0477EE6B24599EA30027C05B /* Recent.swift */,
 				04FD57BE246542B8009D2F7C /* IncomingMessages.swift */,
+				04C56EC2247EA0CA00F5E737 /* VideoMessage.swift */,
 				046F908424743B9300A0133C /* PhotoMediaItem.swift */,
 				04519C8524701E3000735C95 /* Downloads .swift */,
 				0469671624633B900024C3F0 /* OutgoingMessages.swift */,
@@ -333,6 +336,7 @@
 				0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */,
 				0481A50C24516D1B00FE25ED /* SettingsTableViewController.swift in Sources */,
 				04FD57BF246542B8009D2F7C /* IncomingMessages.swift in Sources */,
+				04C56EC3247EA0CA00F5E737 /* VideoMessage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
