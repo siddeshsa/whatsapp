@@ -378,7 +378,13 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
             return
         }
         
+        //send video
         
+        if let video = video{
+            
+        let videoData = NSData(contentsOfFile: video.path!)
+            
+        }
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.finishSendingMessage()
