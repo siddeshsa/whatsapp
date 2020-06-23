@@ -473,7 +473,7 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
                 
                 if audioLink != nil {
                     
-                    let ecryptedText = Encryption.encryptText(chatRoomId: self.chatRoomId, message: "[\(kAUDIO)]")
+                    let ecryptedText =  "[\(kAUDIO)]"
                     
                     
                     outgoingMessage = OutgoingMessage(message: ecryptedText, audio: audioLink!, senderId: currentUser.objectId, senderName: currentUser.firstname, date: date, status: kDELIVERED, type: kAUDIO)
@@ -481,7 +481,7 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
                     JSQSystemSoundPlayer.jsq_playMessageSentSound()
                     self.finishSendingMessage()
                     
-                    outgoingMessage!.sendMessage(chatRoomID: self.chatRoomId, messageDictionary: outgoingMessage!.messageDictionary, memberIds: self.memberIds, membersToPush: self.membersToPush)
+                    outgoingMessage!.sendMessage(chatRoomId: self.chatRoomId, messageDictionary: outgoingMessage!.messageDictionary, memberIds: self.memberIds, membersToPush: self.membersToPush)
                 }
             }
             return

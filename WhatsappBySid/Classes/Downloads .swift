@@ -249,7 +249,50 @@ func uploadAudio(autioPath: String, chatRoomId: String, view: UIView, completion
     }
 }
 
-
+func downloadAudio(audioUrl: String, completion: @escaping(_ audioFileName: String) -> Void) {
+    
+    let audioURL = NSURL(string: audioUrl)
+    
+    let audioFileName = (audioUrl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
+    
+    
+    if fileExistsAtPath(path: audioFileName) {
+        
+        //exist
+        completion(audioFileName)
+        
+    } else {
+        //doesnt exist
+        
+        let downloadQueue = DispatchQueue(label: "audioDownloadQueue")
+        
+        downloadQueue.async {
+            
+            let data = NSData(contentsOf: audioURL! as URL)
+            
+            if data != nil {
+                
+                var docURL = getDocumentsURL()
+                
+                docURL = docURL.appendingPathComponent(audioFileName, isDirectory: false)
+                
+                data!.write(to: docURL, atomically: true)
+                
+                
+                DispatchQueue.main.async {
+                    completion(audioFileName)
+                }
+                
+            } else {
+                //need to call completion and return nil if no file is available
+                
+                DispatchQueue.main.async {
+                    print("no audio in database")
+                }
+            }
+        }
+    }
+}
 
 
 func videoThumbnail(video: NSURL) -> UIImage {
