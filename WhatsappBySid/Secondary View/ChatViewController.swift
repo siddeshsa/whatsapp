@@ -19,6 +19,7 @@ import FirebaseFirestore
 
 class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate,  UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate {
 
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var chatRoomId: String!
     var memberIds: [String]!
     var membersToPush: [String]!
@@ -300,6 +301,9 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         }
         let shareLocation = UIAlertAction(title: "Share Location", style: .default) { (action) in
             print("Share Location")
+            if self.haveAccessToUserLocation(){
+                self.sendMessage(text: nil, date: Date(), picture: nil, location: kLOCATION, video: nil, audio: nil)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             print("cMancel")
@@ -486,6 +490,19 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
             }
             return
         }
+        
+        
+        //send location message
+        if location != nil {
+            
+            let lat: NSNumber = NSNumber(value: appDelegate.coordinates!.latitude)
+            let long: NSNumber = NSNumber(value: appDelegate.coordinates!.longitude)
+            
+            let ecryptedText =  "[\(kLOCATION)]"
+            
+            outgoingMessage = OutgoingMessage(message: ecryptedText, latitude: lat, longitude: long, senderId: currentUser.objectId, senderName: currentUser.firstname, date: date, status: kDELIVERED, type: kLOCATION)
+        }
+        
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.finishSendingMessage()
@@ -801,6 +818,16 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     }
     
     
+    //MARK: Location access
+    
+    func haveAccessToUserLocation() -> Bool {
+        if appDelegate.locationManager != nil {
+            return true
+        } else {
+            ProgressHUD.showError("Please give access tp loacation in Settings.")
+            return false
+        }
+    }
     
     
     
