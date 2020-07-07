@@ -143,11 +143,11 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         
         let data = messages[indexPath.row]
 
-        if data.senderId == FUser.currentId() {
-            cell.textView.textColor = .white
-        }else{
-            cell.textView.textColor = .black
-        }
+//        if data.senderId == FUser.currentId() {
+//            cell.textView.textColor = .white
+//        }else{
+//            cell.textView.textColor = .black
+//        }
         return cell
     }
     
@@ -368,17 +368,17 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
             
             self.present(browser!, animated: true, completion: nil)
             
-       // case kLOCATION:
+        case kLOCATION:
             
-//            let message = messages[indexPath.row]
-//
-//            let mediaItem = message.media as! JSQLocationMediaItem
-//
-//            let mapView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-//
-//            mapView.location = mediaItem.location
-//
-//            self.navigationController?.pushViewController(mapView, animated: true)
+            let message = messages[indexPath.row]
+
+            let mediaItem = message.media as! JSQLocationMediaItem
+
+            let mapView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+
+            mapView.location = mediaItem.location
+
+            self.navigationController?.pushViewController(mapView, animated: true)
             
         case kVIDEO:
             
@@ -494,10 +494,10 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         
         //send location message
         if location != nil {
-            
             let lat: NSNumber = NSNumber(value: appDelegate.coordinates!.latitude)
             let long: NSNumber = NSNumber(value: appDelegate.coordinates!.longitude)
-            
+            print("lat:",lat)
+            print("long:",long)
             let ecryptedText =  "[\(kLOCATION)]"
             
             outgoingMessage = OutgoingMessage(message: ecryptedText, latitude: lat, longitude: long, senderId: currentUser.objectId, senderName: currentUser.firstname, date: date, status: kDELIVERED, type: kLOCATION)

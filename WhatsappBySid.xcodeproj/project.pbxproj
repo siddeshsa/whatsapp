@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040AC78524B49239000248AB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040AC78424B49239000248AB /* MapViewController.swift */; };
 		041F69632451CBEC00F92C61 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F69622451CBEC00F92C61 /* UserTableViewCell.swift */; };
 		0435E5B424540D9E00F2CDA8 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */; };
 		04519C8424700CF100735C95 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04519C8324700CF100735C95 /* Camera.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040AC78424B49239000248AB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		041F69622451CBEC00F92C61 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		0435E5B324540D9E00F2CDA8 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		04519C8324700CF100735C95 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				04552F2D245302DA00A28214 /* UsersTableViewController.swift */,
 				049DDE50246150350017DD46 /* ChatViewController.swift */,
 				047CA38D2455BDFF000818C1 /* ProfileTableViewController.swift */,
+				040AC78424B49239000248AB /* MapViewController.swift */,
 			);
 			path = "Secondary View";
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				04AB6EF3244C677500A6460F /* WelcomeViewController.swift in Sources */,
 				0469671724633B900024C3F0 /* OutgoingMessages.swift in Sources */,
 				041F69632451CBEC00F92C61 /* UserTableViewCell.swift in Sources */,
+				040AC78524B49239000248AB /* MapViewController.swift in Sources */,
 				04552F2E245302DA00A28214 /* UsersTableViewController.swift in Sources */,
 				04AB6EDE244C611D00A6460F /* AppDelegate.swift in Sources */,
 				04AB6EE6244C611D00A6460F /* WhatsappBySid.xcdatamodeld in Sources */,
@@ -488,6 +492,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEPLOYMENT_LOCATION = NO;
 				INFOPLIST_FILE = WhatsappBySid/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -506,6 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEPLOYMENT_LOCATION = NO;
 				INFOPLIST_FILE = WhatsappBySid/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

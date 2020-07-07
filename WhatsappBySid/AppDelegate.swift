@@ -48,6 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
 
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        locationManagerStart()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        locationMangerStop()
+    }
   
     // MARK: - Core Data stack
 
