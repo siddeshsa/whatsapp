@@ -95,14 +95,19 @@ func  createRecentItem(userId:String, chatRoomId:String, members: [String],withU
     localReference.setData(recent)
     
 }
-//restart chat
 
-func restartRecentChat(recent:NSDictionary){
-    if recent[kTYPE] as! String == kPRIVATE{
-        createRecent(members: recent[kMEMBERSTOPUSH] as! [String], chatroomid: recent[kCHATROOMID] as! String, withUserUserName: FUser.currentUser()!.firstname as! String, type: kPRIVATE, users: [FUser.currentUser()!], avatarOfGroup: nil)
+//Restart Chat
+
+func restartRecentChat(recent: NSDictionary) {
+    
+    if recent[kTYPE] as! String == kPRIVATE {
+        
+        createRecent(members: recent[kMEMBERSTOPUSH] as! [String], chatroomid: recent[kCHATROOMID] as! String, withUserUserName: FUser.currentUser()!.firstname, type: kPRIVATE, users: [FUser.currentUser()!], avatarOfGroup: nil)
     }
-    if recent[kTYPE] as! String == kGROUP{
-        createRecent(members: recent[kMEMBERSTOPUSH] as! [String], chatroomid: recent[kCHATROOMID] as! String, withUserUserName: recent[kWITHUSERUSERNAME] as! String, type: kGROUP, users: nil, avatarOfGroup: recent[kAVATAR] as? String)
+    
+    if recent[kTYPE] as! String == kGROUP {
+        
+        createRecent(members: recent[kMEMBERSTOPUSH] as! [String], chatroomid: recent[kCHATROOMID] as! String, withUserUserName: recent[kWITHUSERFULLNAME] as! String, type: kGROUP, users: nil, avatarOfGroup: recent[kAVATAR] as? String)
     }
 }
 
