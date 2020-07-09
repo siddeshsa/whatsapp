@@ -67,6 +67,14 @@ func dictionaryFromSnapshots(snapshots: [DocumentSnapshot]) -> [NSDictionary] {
 }
 
 
+//for avatars
+func dataImageFromString(pictureString: String, withBlock: (_ image: Data?) -> Void) {
+    
+    let imageData = NSData(base64Encoded: pictureString, options: NSData.Base64DecodingOptions(rawValue: 0))
+    
+    withBlock(imageData as Data?)
+}
+
 
 func timeElapsed(date: Date) -> String {
     
